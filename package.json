@@ -1,0 +1,30 @@
+{
+  "name": "two.js",
+  "version": "1.0.0",
+  "description": "TWO.js is a WebGL-based graphics rendering engine.",
+  "main": "src/two.js",
+  "dependencies": {},
+  "devDependencies": {
+    "babelify": "^7.3.0",
+    "browserify": "^13.0.1",
+    "fs": "0.0.2",
+    "gulp": "^3.9.1",
+    "static-server": "^2.0.2"
+  },
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fmd/two.js.git"
+  },
+  "keywords": [
+    "webgl"
+  ],
+  "author": "Fareed Dudhia",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fmd/two.js/issues"
+  },
+  "homepage": "https://github.com/fmd/two.js#readme"
+}
