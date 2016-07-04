@@ -6,5 +6,5 @@ gulp.task('default', function() {
   browserify('./src/two.js')
     .transform('babelify')
     .bundle()
-    .pipe(fs.createWriteStream('dest/two.js'));
+    .pipe(fs.createWriteStream('dist/two.js'));
 });

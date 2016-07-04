@@ -3,16 +3,20 @@
   "version": "1.0.0",
   "description": "TWO.js is a WebGL-based graphics rendering engine.",
   "main": "src/two.js",
-  "dependencies": {},
+  "dependencies": {
+    "three": "^0.78.0"
+  },
   "devDependencies": {
     "babelify": "^7.3.0",
     "browserify": "^13.0.1",
     "fs": "0.0.2",
     "gulp": "^3.9.1",
-    "static-server": "^2.0.2"
+    "mocha": "^2.5.3",
+    "static-server": "^2.0.2",
+    "three": "^0.78.0"
   },
   "scripts": {
-    "test": "npm test"
+    "test": "mocha --reporter list"
   },
   "repository": {
     "type": "git",
