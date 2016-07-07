@@ -41874,40 +41874,79 @@ THREE.MorphBlendMesh.prototype.update = function ( delta ) {
 
 },{}],2:[function(require,module,exports){
 var THREE = require('three');
-
 var scene, camera, renderer;
 var geometry, material, mesh;
+
+var resolution = { width: 640.0, height: 480.0 };
+
+let vs = `void main() {
+   gl_Position = vec4( position, 1.0 );
+}`;
+
+let fs = `void main() {
+   gl_FragColor = vec4(0.0, 1.0, 0.5, 1.0);
+}`;
 
 init();
 animate();
 
+function setupScene() {
+  scene = new THREE.Scene();
+}
+
+function setupCamera() {
+  var width = window.innerWidth;
+  var height = window.innerHeight;
+  camera = new THREE.OrthographicCamera(-1, 1, 1, -1, -1, 1000);
+}
+
+function setupQuad() {
+  var quad = new THREE.Mesh(new THREE.PlaneGeometry(resolution.width, resolution.height));
+
+  scene.add(quad);
+}
+
+function setupRenderer() {
+  renderer = new THREE.WebGLRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+}
+
 function init() {
-
-	scene = new THREE.Scene();
-
-	camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
-	camera.position.z = 1000;
-
-	geometry = new THREE.BoxGeometry(200, 200, 200);
-	material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
-
-	mesh = new THREE.Mesh(geometry, material);
-	scene.add(mesh);
-
-	renderer = new THREE.WebGLRenderer();
-	renderer.setSize(window.innerWidth, window.innerHeight);
-
-	document.body.appendChild(renderer.domElement);
+  setupScene();
+  setupCamera();
+  setupQuad();
+  setupRenderer();
+  resizeCanvas();
 }
 
 function animate() {
+  requestAnimationFrame(animate);
+  renderer.render(scene, camera);
+}
 
-	requestAnimationFrame(animate);
+window.addEventListener('resize', resizeCanvas, false);
 
-	mesh.rotation.x += 0.01;
-	mesh.rotation.y += 0.02;
+function resizeCanvas() {
+  var width = window.innerWidth * 1.0;
+  var height = window.innerHeight * 1.0;
+  var aspect = resolution.width / resolution.height;
 
-	renderer.render(scene, camera);
+  renderer.setSize(width, height);
+
+  if (width / height > aspect) {
+    camera.top = resolution.height / 2;
+    camera.bottom = -resolution.height / 2;
+    camera.left = -(resolution.height / 2) * (width / height);
+    camera.right = resolution.height / 2 * (width / height);
+  } else {
+    camera.top = resolution.width / 2 / (width / height);
+    camera.bottom = -(resolution.width / 2) / (width / height);
+    camera.left = -(resolution.width / 2);
+    camera.right = resolution.width / 2;
+  }
+
+  camera.updateProjectionMatrix();
 }
 
 },{"three":1}]},{},[2]);
