@@ -1,19 +1,14 @@
 var THREE = require('three')
 var scene, camera, renderer;
 var geometry, material, mesh;
+var bufferScene, bufferTexture;
+var boxObject, bufferCamera;
 
-var resolution = { width: 640.0, height: 480.0 };
-
-let vs = `void main() {
-   gl_Position = vec4( position, 1.0 );
-}`
-
-let fs = `void main() {
-   gl_FragColor = vec4(0.0, 1.0, 0.5, 1.0);
-}`
+var resolution = { width: 320.0, height: 240.0 };
 
 init()
 animate()
+window.addEventListener('resize', resizeCanvas, false );
 
 function setupScene() {
 	scene = new THREE.Scene()
@@ -26,7 +21,8 @@ function setupCamera() {
 }
 
 function setupQuad() {
-	var quad = new THREE.Mesh(new THREE.PlaneGeometry(resolution.width, resolution.height));
+	var quad = new THREE.Mesh(new THREE.PlaneGeometry(resolution.width, resolution.height),
+                            new THREE.MeshBasicMaterial({ map: bufferTexture }));
 
 	scene.add(quad);
 }
@@ -38,19 +34,38 @@ function setupRenderer() {
 }
 
 function init() {
-	setupScene()
-	setupCamera()
-	setupQuad()
 	setupRenderer()
-  resizeCanvas()
+
+  bufferScene = new THREE.Scene();
+  bufferTexture = new THREE.WebGLRenderTarget( resolution.width,
+                                               resolution.height,
+                                               { minFilter: THREE.LinearFilter,
+                                                 magFilter: THREE.NearestFilter });
+
+  bufferCamera = new THREE.OrthographicCamera( -resolution.width/2,
+                                                resolution.width/2,
+                                                resolution.height/2,
+                                               -resolution.height/2, -1, 1000 );
+
+   var redMaterial = new THREE.MeshBasicMaterial({color:0xF06565});
+   var boxGeometry = new THREE.PlaneGeometry(30, 30);
+   boxObject = new THREE.Mesh( boxGeometry, redMaterial );
+   boxObject.position.z = -10;
+   bufferScene.add(boxObject);
+
+    setupScene()
+    setupCamera()
+    setupQuad()
+    resizeCanvas()
 }
 
 function animate() {
 	requestAnimationFrame( animate )
-	renderer.render( scene, camera )
-}
 
-window.addEventListener( 'resize', resizeCanvas, false );
+  boxObject.rotation.z += 0.01;
+  renderer.render(bufferScene, bufferCamera, bufferTexture)
+	renderer.render(scene, camera)
+}
 
 function resizeCanvas(){
   var width = window.innerWidth * 1.0;
@@ -62,18 +77,16 @@ function resizeCanvas(){
   renderer.setSize(width, height);
 
   if (width / height > resolutionAspect) {
-    camera.top = resolution.height / 2;
-    camera.bottom = -resolution.height / 2;
-    camera.left = -(resolution.height / 2) * screenAspect;
-    camera.right = (resolution.height / 2) * screenAspect;
+    camera.left   = -(resolution.height / 2) * screenAspect;
+    camera.right  =  (resolution.height / 2) * screenAspect;
+    camera.top    =  (resolution.height / 2);
+    camera.bottom = -(resolution.height / 2);
   } else {
-    camera.top = (resolution.width / 2) / screenAspect;
+    camera.left   = -(resolution.width / 2);
+    camera.right  =  (resolution.width / 2);
+    camera.top    =  (resolution.width / 2) / screenAspect;
     camera.bottom = -(resolution.width / 2) / screenAspect;
-    camera.left = -(resolution.width / 2);
-    camera.right = (resolution.width / 2);
   }
-
-
 
   camera.updateProjectionMatrix();
 }
