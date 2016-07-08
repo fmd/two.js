@@ -1,20 +1,23 @@
 var gulp = require('gulp');
-var fs = require('fs');
-var browserify = require('browserify');
+var gutil = require('gutil');
 var watchify = require('watchify');
 
-gulp.task('default', function() {
-  var b = browserify({
-    entries: ['src/two.js'],
-    cache: {},
-    packageCache: {},
+var fs = require('fs'),
+    browserify = require('browserify'),
+    babelify = require('babelify'),
+    path = require('path');
+
+gulp.task('default', function () {
+  browserify({
+    debug: true,
+    extensions: ['.es6'],
+    entries: ['src/examples/basic.es6'],
     plugin: [watchify]
-  });
-
-  b.on('update', bundle);
-  bundle();
-
-  function bundle() {
-    b.bundle().pipe(fs.createWriteStream('dist/two.js'));
-  }
+  }).transform(babelify.configure({
+    extensions: ['.es6'],
+    presets: ['es2015'],
+    sourceMapRelative: path.resolve(__dirname, 'src')
+  })).bundle()
+     .on('error', gutil.log)
+     .pipe(fs.createWriteStream('dist/example.js'));
 });
