@@ -32,7 +32,6 @@ export class Downscaler {
   }
 
   render(scene, camera) {
-    console.log('renderin');
     this.renderer.render(scene, camera, this.texture)
   	this.renderer.render(this.scene, this.camera)
   }

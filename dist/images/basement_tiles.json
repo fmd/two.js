@@ -1,0 +1,71 @@
+{
+  "tileSize": 8,
+  "items": {
+    "bloodyShelves": {
+      "x": 0,
+      "y": 0,
+      "width": 2,
+      "height": 2
+    },
+    "darkWall": {
+      "x": 2,
+      "y": 0,
+      "width": 1,
+      "height": 1
+    },
+    "darkBrokenWall": {
+      "x": 2,
+      "y": 1,
+      "width": 1,
+      "height": 1
+    },
+    "tallCabinet": {
+      "x": 3,
+      "y": 0,
+      "width": 1,
+      "height": 2
+    },
+    "smallTable": {
+      "x": 4,
+      "y": 0,
+      "width": 1,
+      "height": 1
+    },
+    "candle": {
+      "x": 4,
+      "y": 1,
+      "width": 1,
+      "height": 1
+    },
+    "largeBrokenMirror": {
+      "x": 5,
+      "y": 0,
+      "width": 2,
+      "height": 2
+    },
+    "pigTable": {
+      "x": 0,
+      "y": 2,
+      "width": 2,
+      "height": 2
+    },
+    "meat": {
+      "x": 2,
+      "y": 2,
+      "width": 1,
+      "height": 1
+    },
+    "smallMeat": {
+      "x": 2,
+      "y": 3,
+      "width": 1,
+      "height": 1
+    },
+    "cobweb": {
+      "x": 3,
+      "y": 2,
+      "width": 1,
+      "height": 1
+    }
+  }
+}

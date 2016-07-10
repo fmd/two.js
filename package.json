@@ -4,19 +4,25 @@
   "description": "TWO.js is a WebGL-based graphics rendering engine.",
   "main": "src/two.js",
   "dependencies": {
+    "brfs": "^1.4.3",
+    "lodash": "^4.13.1",
     "three": "^0.78.0"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.9.0",
     "babelify": "^7.3.0",
     "browserify": "^13.0.1",
-    "fs": "0.0.2",
     "gulp": "^3.9.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-util": "^3.0.7",
     "gutil": "^1.6.4",
+    "lodash": "^4.13.1",
     "mocha": "^2.5.3",
     "path": "^0.12.7",
     "static-server": "^2.0.2",
     "three": "^0.78.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.7.0"
   },
   "scripts": {
