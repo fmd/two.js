@@ -10,6 +10,7 @@ var gutil = require('gulp-util');
 var sourcemaps = require('gulp-sourcemaps');
 var _ = require('lodash');
 var path = require('path');
+var brfs = require('brfs');
 
 var customOpts = {
   entries: ['./src/examples/basic.es6'],
@@ -24,7 +25,10 @@ var babelOpts = {
 };
 
 var opts = _.assign({}, watchify.args, customOpts);
-var b = watchify(browserify(opts)).transform(babelify.configure(babelOpts))
+var b = watchify(browserify(opts))
+
+b.transform(babelify.configure(babelOpts));
+b.transform('brfs');
 
 gulp.task('js', bundle);
 b.on('update', bundle);

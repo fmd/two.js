@@ -1,13 +1,13 @@
+var fs = require('fs');
 let Three = require('three')
 import { map } from 'lodash'
-
-import { fetchFile } from './file_loader'
 
 export class TextureSheet {
   constructor(tileImage, tileInfoFile) {
     this.tiles = {}
     this.tileImage = tileImage
-    this.tileInfo = JSON.parse(fetchFile(tileInfoFile))
+    this.tileInfo = JSON.parse(fs.readFileSync(tileInfoFile))
+    loadTiles()
   }
 
   loadTiles() {

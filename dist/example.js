@@ -58406,46 +58406,7 @@ var anim = function anim() {
 t.loopFuncs.push(anim);
 t.animate();
 
-},{"../texture_animator":6,"../texture_sheet":7,"../two":8,"three":2}],5:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.fetchFile = fetchFile;
-function performFetchRequest(url) {
-  return new Promise(function (resolve, reject) {
-    var req = new XMLHttpRequest();
-    req.open('GET', url);
-    req.onload = function () {
-      if (req.status == 200) {
-        resolve(req.response);
-      } else {
-        reject(Error(req.statusText));
-      }
-    };
-
-    req.onerror = function () {
-      reject(Error('Could not load ' + url));
-    };
-
-    req.send();
-  });
-}
-
-function fetchFile(path) {
-  var fetchedData = void 0;
-  performFetchRequest(path).then(function (response) {
-    fetchedData = response;
-  }, function (error) {
-    console.error(error);
-  });
-
-  console.log(fetchedData);
-  return fetchedData;
-}
-
-},{}],6:[function(require,module,exports){
+},{"../texture_animator":5,"../texture_sheet":6,"../two":7,"three":2}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -58500,7 +58461,7 @@ var TextureAnimator = exports.TextureAnimator = function () {
   return TextureAnimator;
 }();
 
-},{"three":2}],7:[function(require,module,exports){
+},{"three":2}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -58512,9 +58473,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _lodash = require('lodash');
 
-var _file_loader = require('./file_loader');
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 
 var Three = require('three');
 
@@ -58524,7 +58484,8 @@ var TextureSheet = exports.TextureSheet = function () {
 
     this.tiles = {};
     this.tileImage = tileImage;
-    this.tileInfo = JSON.parse((0, _file_loader.fetchFile)(tileInfoFile));
+    this.tileInfo = JSON.parse(fs.readFileSync(tileInfoFile));
+    loadTiles();
   }
 
   _createClass(TextureSheet, [{
@@ -58561,7 +58522,7 @@ var TextureSheet = exports.TextureSheet = function () {
   return TextureSheet;
 }();
 
-},{"./file_loader":5,"lodash":1,"three":2}],8:[function(require,module,exports){
+},{"lodash":1,"three":2}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

@@ -5,6 +5,7 @@
   "main": "src/two.js",
   "dependencies": {
     "brfs": "^1.4.3",
+    "fs": "0.0.2",
     "lodash": "^4.13.1",
     "three": "^0.78.0"
   },
