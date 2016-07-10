@@ -20,7 +20,8 @@ var customOpts = {
 
 var babelOpts = {
   extensions: ['.es6'],
-  presets: ['es2015'],
+  presets: ['stage-0'],
+  plugins: ['syntax-async-functions', 'transform-regenerator'],
   sourceMapRelative: path.resolve(__dirname, 'src')
 };
 

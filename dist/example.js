@@ -58374,11 +58374,12 @@ var _texture_sheet = require('../texture_sheet');
 
 var _texture_animator = require('../texture_animator');
 
+
 var Three = require('three');
 
 var t = new _two.Two({ resolution: { width: 320, height: 240 } });
 
-var detective = new Three.ImageUtils.loadTexture('images/detective_walk.png');
+var detective = new Three.ImageUtils.loadTexture('./resources/detective_walk.png');
 detective.minFilter = Three.NearestFilter;
 detective.magFilter = Three.NearestFilter;
 
@@ -58393,10 +58394,14 @@ var runner = new Three.Mesh(runnerGeometry, runnerMaterial);
 
 t.scene.add(runner);
 
-var environmentSheet = new _texture_sheet.TextureSheet('./images/basement.png', './images/basement_tiles.json');
-var wallGeometry = new Three.PlaneGeometry(32, 32);
-var wall = new Three.Mesh(wallGeometry, environmentSheet.tiles['darkWall']);
+// You have to give the path from the gulpfile because javascript is a piece of shit
+var basementTileInfo = "{\n  \"tileSize\": 8,\n  \"items\": {\n    \"bloodyShelves\": {\n      \"x\": 0,\n      \"y\": 0,\n      \"width\": 2,\n      \"height\": 2\n    },\n    \"darkWall\": {\n      \"x\": 2,\n      \"y\": 0,\n      \"width\": 1,\n      \"height\": 1\n    },\n    \"darkBrokenWall\": {\n      \"x\": 2,\n      \"y\": 1,\n      \"width\": 1,\n      \"height\": 1\n    },\n    \"tallCabinet\": {\n      \"x\": 3,\n      \"y\": 0,\n      \"width\": 1,\n      \"height\": 2\n    },\n    \"smallTable\": {\n      \"x\": 4,\n      \"y\": 0,\n      \"width\": 1,\n      \"height\": 1\n    },\n    \"candle\": {\n      \"x\": 4,\n      \"y\": 1,\n      \"width\": 1,\n      \"height\": 1\n    },\n    \"largeBrokenMirror\": {\n      \"x\": 5,\n      \"y\": 0,\n      \"width\": 2,\n      \"height\": 2\n    },\n    \"pigTable\": {\n      \"x\": 0,\n      \"y\": 2,\n      \"width\": 2,\n      \"height\": 2\n    },\n    \"meat\": {\n      \"x\": 2,\n      \"y\": 2,\n      \"width\": 1,\n      \"height\": 1\n    },\n    \"smallMeat\": {\n      \"x\": 2,\n      \"y\": 3,\n      \"width\": 1,\n      \"height\": 1\n    },\n    \"cobweb\": {\n      \"x\": 3,\n      \"y\": 2,\n      \"width\": 1,\n      \"height\": 1\n    }\n  }\n}\n";
 
+var environmentSheet = new _texture_sheet.TextureSheet('./resources/basement.png', basementTileInfo);
+var wallGeometry = new Three.PlaneGeometry(32, 32);
+var wallMaterial = environmentSheet.tiles['darkWall'];
+
+var wall = new Three.Mesh(wallGeometry, wallMaterial);
 t.scene.add(wall);
 
 var anim = function anim() {
@@ -58475,23 +58480,22 @@ var _lodash = require('lodash');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-
 var Three = require('three');
 
 var TextureSheet = exports.TextureSheet = function () {
-  function TextureSheet(tileImage, tileInfoFile) {
+  function TextureSheet(tileImage, tileInfo) {
     _classCallCheck(this, TextureSheet);
 
     this.tiles = {};
     this.tileImage = tileImage;
-    this.tileInfo = JSON.parse(fs.readFileSync(tileInfoFile));
-    loadTiles();
+    this.tileInfo = JSON.parse(tileInfo);
+
+    this.atlasTexture = Three.ImageUtils.loadTexture(this.tileImage, undefined, this.loadTiles.bind(this));
   }
 
   _createClass(TextureSheet, [{
     key: 'loadTiles',
     value: function loadTiles() {
-      this.atlasTexture = Three.ImageUtils.loadTexture(this.tileImage);
       for (var key in this.tileInfo.items) {
         this.loadTile(key);
       }
