@@ -1,5 +1,5 @@
 {
-  "tileSize": 8,
+  "tileSize": 16,
   "items": {
     "bloodyShelves": {
       "x": 0,

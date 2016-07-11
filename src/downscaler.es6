@@ -18,21 +18,21 @@ export class Downscaler {
   }
 
   initializeTexture() {
-    this.texture = new Three.WebGLRenderTarget(this.resolution.width,
-                                               this.resolution.height,
-                                               { minFilter: Three.LinearFilter,
-                                                 magFilter: Three.NearestFilter })
+    this.renderTarget = new Three.WebGLRenderTarget(this.resolution.width,
+                                                    this.resolution.height,
+                                                    { minFilter: Three.LinearFilter,
+                                                      magFilter: Three.NearestFilter })
   }
 
   initializeQuad() {
   	let quad = new Three.Mesh(new Three.PlaneGeometry(this.resolution.width, this.resolution.height),
-                              new Three.MeshBasicMaterial({ map: this.texture }))
+                              new Three.MeshBasicMaterial({ map: this.renderTarget.texture }))
 
   	this.scene.add(quad)
   }
 
   render(scene, camera) {
-    this.renderer.render(scene, camera, this.texture)
+    this.renderer.render(scene, camera, this.renderTarget)
   	this.renderer.render(this.scene, this.camera)
   }
 
